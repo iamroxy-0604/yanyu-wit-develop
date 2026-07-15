@@ -1,0 +1,16 @@
+.git
+.venv
+venv
+env
+web/node_modules
+node_modules
+dist
+build
+.pytest_cache
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+.DS_Store
+.env
+temp

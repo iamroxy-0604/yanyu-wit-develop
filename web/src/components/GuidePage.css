@@ -1,0 +1,202 @@
+/* ============================================================
+   Guide Page — Introductory Landing Page
+   ============================================================ */
+
+.guide-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: var(--space-8) var(--space-4);
+  animation: guidePageFadeIn 0.5s ease-out;
+}
+
+@keyframes guidePageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guide-card {
+  width: 100%;
+  max-width: 640px;
+  padding: var(--space-10) var(--space-8);
+}
+
+/* --- Header --- */
+
+.guide-header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.guide-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+  animation: guideBoltPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes guideBoltPulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.3)); }
+  50% { transform: scale(1.08); filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.5)); }
+}
+
+.guide-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+  letter-spacing: -0.01em;
+}
+
+.guide-subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: 400;
+}
+
+/* --- Action Items --- */
+
+.guide-actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.guide-action-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-4);
+  border-top: 1px solid var(--color-border-light);
+  transition: background-color 0.15s ease;
+  animation: guideItemSlideIn 0.4s ease-out both;
+}
+
+.guide-action-item:last-child {
+  border-bottom: none;
+}
+
+.guide-action-item:hover {
+  background: var(--color-surface-hover);
+  border-radius: var(--radius-md);
+}
+
+@keyframes guideItemSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.guide-action-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+}
+
+.guide-action-item:nth-child(1) .guide-action-icon {
+  color: #4285f4;
+}
+
+.guide-action-item:nth-child(2) .guide-action-icon {
+  color: #9b72cb;
+}
+
+.guide-action-item:nth-child(3) .guide-action-icon {
+  color: #e67e22;
+}
+
+.guide-action-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.guide-action-title {
+  font-weight: 600;
+  font-size: var(--text-base);
+  color: var(--color-text);
+}
+
+.guide-action-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.guide-action-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.guide-action-btn:hover {
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.guide-action-btn:active {
+  transform: scale(0.97);
+}
+
+.guide-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- Responsive --- */
+
+@media (max-width: 640px) {
+  .guide-card {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .guide-action-item {
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .guide-action-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .guide-action-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .guide-action-desc {
+    font-size: var(--text-xs);
+  }
+
+  .guide-title {
+    font-size: 1.25rem;
+  }
+}

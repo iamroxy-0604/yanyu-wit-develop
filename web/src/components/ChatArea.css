@@ -1,0 +1,195 @@
+/* ============================================================
+   Chat Area — Split-view layout with sandbox column
+   ============================================================ */
+
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  background-color: var(--color-surface);
+  position: relative;
+}
+
+/* --- Chat Column (left, always present) --- */
+.chat-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  transition: flex var(--transition-base);
+}
+
+/* --- Sandbox Column (right, slides in) --- */
+.sandbox-column {
+  width: 0;
+  min-width: 0;
+  overflow: hidden;
+  transition: width var(--transition-base), min-width var(--transition-base);
+  border-left: 0 solid var(--color-border);
+}
+
+.sandbox-column.open {
+  width: 55%;
+  min-width: 400px;
+  border-left-width: 1px;
+}
+
+/* --- Welcome Screen --- */
+.chat-welcome {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8);
+  text-align: center;
+  animation: fadeIn var(--transition-slow) ease-out;
+}
+
+.welcome-title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.welcome-greeting {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  background: linear-gradient(135deg, #4285f4, #9b72cb, #d96570);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.welcome-subtitle {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-normal);
+  color: var(--color-text);
+}
+
+.welcome-hint {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+}
+
+.welcome-actions {
+  margin-top: var(--space-6);
+}
+
+.welcome-new-chat {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-xl);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  color: var(--color-primary-text);
+  background-color: var(--color-primary);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.welcome-new-chat:hover {
+  background-color: var(--color-primary-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* --- Messages --- */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4) 0;
+}
+
+.chat-messages-inner {
+  max-width: var(--max-chat-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+/* When sandbox is open, relax the max-width so chat doesn't feel cramped */
+.sandbox-open .chat-messages-inner {
+  max-width: 100%;
+  padding: 0 var(--space-4);
+}
+
+.chat-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+}
+
+/* --- Typing Indicator --- */
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: var(--space-4) 0;
+  animation: fadeIn var(--transition-fast) ease-out;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-text-tertiary);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* --- Sandbox Toggle Button (pill-shaped, bottom-right) --- */
+.sandbox-toggle-btn {
+  position: absolute;
+  bottom: 90px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 10px 16px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, #1a73e8, #4285f4);
+  color: white;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  box-shadow: 0 4px 16px rgba(26, 115, 232, 0.3);
+  transition: all var(--transition-fast);
+  z-index: 10;
+  animation: fadeIn var(--transition-base) ease-out;
+}
+
+.sandbox-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(26, 115, 232, 0.4);
+}
+
+.sandbox-toggle-label {
+  white-space: nowrap;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .sandbox-column.open {
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    min-width: 0;
+    z-index: 200;
+    background: var(--color-surface);
+  }
+}

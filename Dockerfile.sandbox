@@ -1,0 +1,19 @@
+FROM python:3.12-alpine
+
+# Install basic command execution utilities and libraries
+RUN apk add --no-cache \
+    bash \
+    curl \
+    sqlite \
+    git \
+    build-base
+
+# Set up working directory
+WORKDIR /workspace
+
+# Run as non-privileged non-root user (agent, UID 1000)
+RUN adduser -D -u 1000 agent
+USER agent
+
+# Default entry point keeps the sandbox open for execution commands
+CMD ["tail", "-f", "/dev/null"]

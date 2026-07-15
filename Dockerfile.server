@@ -1,0 +1,26 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install git and system requirements
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy application code
+COPY . /app
+
+# Install local acps-cli dependency from vendor path
+RUN pip install --no-cache-dir /app/cli/acps-cli
+
+# Install package with saas dependencies
+RUN pip install --no-cache-dir -e ".[saas]"
+
+# Expose application port
+EXPOSE 7020
+
+# Set deployment mode to central saas
+ENV WIT_DEPLOY_MODE=saas
+
+# Start the service
+CMD ["python", "-m", "service.app"]

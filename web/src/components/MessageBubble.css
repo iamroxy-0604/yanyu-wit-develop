@@ -1,0 +1,321 @@
+/* ============================================================
+   Message Bubble
+   ============================================================ */
+
+.message-row {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  align-items: flex-start;
+}
+
+.message-row.user {
+  justify-content: flex-end;
+}
+
+.message-row.assistant {
+  justify-content: flex-start;
+}
+
+/* --- Avatar --- */
+.message-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.assistant-avatar {
+  background: linear-gradient(135deg, #e8f0fe, #d3e3fd);
+  color: var(--color-primary);
+}
+
+/* --- Bubble --- */
+.message-bubble {
+  max-width: 85%;
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.user-bubble {
+  background-color: var(--color-user-bubble);
+  color: var(--color-user-text);
+  border-bottom-right-radius: var(--radius-sm);
+}
+
+.assistant-bubble {
+  background-color: transparent;
+  color: var(--color-assistant-text);
+  padding-left: 0;
+  padding-right: var(--space-8);
+}
+
+.message-text {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* --- Streaming Cursor --- */
+.streaming-cursor {
+  display: inline-block;
+  animation: blink 1s step-end infinite;
+  color: var(--color-primary);
+  margin-left: 2px;
+}
+
+/* --- Tool Calls --- */
+.tool-calls-row {
+  padding: var(--space-2) 0;
+  padding-left: calc(32px + var(--space-3));
+}
+
+/* --- Tool Call Group --- */
+.tool-call-group {
+  width: 100%;
+  max-width: 600px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.tool-group-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  width: 100%;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface-hover);
+  transition: background-color var(--transition-fast);
+  cursor: pointer;
+}
+
+.tool-group-header.running {
+  background-color: #fffdf5;
+  color: var(--color-tool-text);
+  border-bottom: 1px solid var(--color-tool-border);
+}
+
+.tool-group-header:hover {
+  background-color: var(--color-surface-active);
+}
+
+.tool-group-icon {
+  display: flex;
+  align-items: center;
+  color: var(--color-success);
+}
+
+.tool-group-header.running .tool-group-icon {
+  color: var(--color-tool-border);
+}
+
+.tool-group-title {
+  flex: 1;
+  text-align: left;
+  font-weight: var(--weight-medium);
+  font-size: var(--text-sm);
+}
+
+.tool-group-chevron {
+  transition: transform var(--transition-fast);
+}
+
+.tool-group-chevron.expanded {
+  transform: rotate(180deg);
+}
+
+.tool-calls-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background-color: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+}
+
+.tool-call-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  font-size: var(--text-sm);
+  background-color: var(--color-surface);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.tool-call-card.running {
+  border-color: var(--color-tool-border);
+  background-color: #fffdf5;
+  box-shadow: 0 0 0 1px var(--color-tool-border), var(--shadow-sm);
+}
+
+.tool-call-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  width: 100%;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  transition: background-color var(--transition-fast);
+}
+
+.tool-call-header:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.tool-call-icon {
+  display: flex;
+  align-items: center;
+  color: var(--color-success);
+}
+
+.tool-call-card.running .tool-call-icon {
+  color: var(--color-tool-border);
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+.tool-call-name {
+  flex: 1;
+  text-align: left;
+  font-weight: var(--weight-medium);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.tool-call-chevron {
+  transition: transform var(--transition-fast);
+}
+
+.tool-call-chevron.expanded {
+  transform: rotate(180deg);
+}
+
+.tool-call-details {
+  border-top: 1px solid var(--color-border-light);
+  padding: var(--space-3);
+}
+
+.tool-call-section {
+  margin-bottom: var(--space-2);
+}
+
+.tool-call-section:last-child {
+  margin-bottom: 0;
+}
+
+.tool-call-label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-1);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tool-call-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  background-color: #f5f5f5;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0;
+}
+
+
+/* ============================================================
+   Message Attachment Previews
+   ============================================================ */
+
+.msg-attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.msg-attachment-item {
+  animation: fadeIn 0.2s ease;
+}
+
+/* --- Image preview --- */
+.msg-attachment-image-wrap {
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 280px;
+  max-height: 240px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.msg-attachment-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 280px;
+  max-height: 240px;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.msg-attachment-image:hover {
+  transform: scale(1.02);
+}
+
+/* --- File chip (non-image) --- */
+.msg-attachment-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  max-width: 200px;
+}
+
+.msg-attachment-file-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.msg-attachment-file-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.msg-attachment-file-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msg-attachment-file-size {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+}
+

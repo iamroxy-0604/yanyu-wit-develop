@@ -1,0 +1,384 @@
+/* ============================================================
+   SandboxPanel — Inline Diff Viewer (within sandbox-column)
+   ============================================================ */
+
+.sandbox-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-surface);
+  animation: sandboxFadeIn 0.3s ease-out;
+}
+
+@keyframes sandboxFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* --- Header --- */
+.sandbox-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(135deg, #f8f9fa 0%, #e8f0fe 100%);
+  flex-shrink: 0;
+}
+
+.sandbox-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sandbox-header-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.sandbox-header h3 {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.sandbox-close-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.sandbox-close-btn:hover {
+  background: var(--color-surface-active);
+  color: var(--color-text);
+}
+
+/* --- Content --- */
+.sandbox-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sandbox-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12);
+  color: var(--color-text-tertiary);
+  text-align: center;
+}
+
+.sandbox-empty-icon {
+  font-size: 40px;
+  margin-bottom: var(--space-4);
+  opacity: 0.5;
+}
+
+.sandbox-empty p {
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+.sandbox-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12);
+}
+
+.sandbox-loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2.5px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* --- Diff Files --- */
+.sandbox-diff-file {
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.sandbox-diff-file-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-hover);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  font-size: var(--text-sm);
+}
+
+.sandbox-diff-file-header:hover {
+  background: var(--color-surface-active);
+}
+
+.sandbox-diff-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+
+.sandbox-diff-badge.added {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.sandbox-diff-badge.modified {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.sandbox-diff-badge.deleted {
+  background: #fce4e4;
+  color: #991b1b;
+}
+
+.sandbox-diff-path {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sandbox-diff-toggle {
+  color: var(--color-text-tertiary);
+  font-size: 12px;
+  transition: transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.sandbox-diff-toggle.open {
+  transform: rotate(90deg);
+}
+
+/* --- Diff Body (diff2html) --- */
+.sandbox-diff-body {
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: #fafafa;
+}
+
+/*
+ * Aggressively override diff2html's default styles.
+ * The library ships with heavy padding/margins that cause
+ * excessive whitespace in narrow panels.
+ */
+.sandbox-diff-body .d2h-wrapper {
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.sandbox-diff-body .d2h-file-list-wrapper {
+  display: none !important;
+}
+
+.sandbox-diff-body .d2h-file-header {
+  display: none !important;
+}
+
+.sandbox-diff-body .d2h-file-wrapper {
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.sandbox-diff-body .d2h-file-diff {
+  overflow: visible !important;
+}
+
+/* Table */
+.sandbox-diff-body .d2h-diff-table {
+  width: 100% !important;
+  table-layout: auto !important;
+  font-family: var(--font-mono) !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+  border-collapse: collapse !important;
+}
+
+/* All table cells: kill default padding */
+.sandbox-diff-body .d2h-diff-table td {
+  padding: 0 !important;
+  vertical-align: top !important;
+  line-height: 1.4 !important;
+}
+
+/* Line numbers */
+.sandbox-diff-body .d2h-code-linenumber {
+  position: static !important;
+  display: table-cell !important;
+  width: 54px !important;
+  min-width: 54px !important;
+  max-width: 54px !important;
+  padding: 2px 4px !important;
+  text-align: right !important;
+  color: var(--color-text-tertiary) !important;
+  user-select: none !important;
+  font-size: 11px !important;
+  border-right: 1px solid var(--color-border-light) !important;
+  background: var(--color-surface-hover) !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  vertical-align: top !important;
+}
+
+.sandbox-diff-body .line-num1,
+.sandbox-diff-body .line-num2 {
+  display: inline-block !important;
+  width: 22px !important;
+  min-width: 22px !important;
+  text-align: right !important;
+  float: none !important;
+  font-size: 11px !important;
+  color: var(--color-text-tertiary) !important;
+  line-height: 1.5 !important;
+}
+
+/* Code line cell */
+.sandbox-diff-body .d2h-code-line {
+  display: flex !important;
+  align-items: flex-start !important;
+  width: 100% !important;
+  padding: 2px 0 2px 8px !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0 !important; /* Collapse anonymous text nodes containing whitespaces */
+  line-height: 1.5 !important;
+}
+
+/* Prefix (+/-/space) and content: side-by-side using flex layout to prevent vertical line breaks */
+.sandbox-diff-body .d2h-code-line-prefix {
+  display: inline-block !important;
+  width: 14px !important;
+  min-width: 14px !important;
+  max-width: 14px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size: 12px !important; /* Restore font size */
+  user-select: none !important;
+  color: var(--color-text-tertiary) !important;
+  flex-shrink: 0 !important;
+}
+
+.sandbox-diff-body .d2h-code-line-ctn {
+  flex: 1 !important;
+  display: block !important;
+  width: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size: 12px !important; /* Restore font size */
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
+  overflow-wrap: break-word !important;
+  background: transparent !important;
+}
+
+/* Hunk info header */
+.sandbox-diff-body .d2h-info {
+  background: #f0f4f9 !important;
+  color: var(--color-text-tertiary) !important;
+  padding: 3px 8px !important;
+  font-size: 12px !important;
+  border-bottom: 1px solid var(--color-border-light) !important;
+}
+
+/* Row colors */
+.sandbox-diff-body .d2h-ins {
+  background: #e6ffec !important;
+}
+
+.sandbox-diff-body .d2h-del {
+  background: #ffebe9 !important;
+}
+
+.sandbox-diff-body .d2h-ins .d2h-code-linenumber {
+  background: #ccffd8 !important;
+}
+
+.sandbox-diff-body .d2h-del .d2h-code-linenumber {
+  background: #ffd7d5 !important;
+}
+
+/* Word-level highlights */
+.sandbox-diff-body .d2h-code-line-ctn ins {
+  background: #abf2bc !important;
+  text-decoration: none !important;
+}
+
+.sandbox-diff-body .d2h-code-line-ctn del {
+  background: #ffc0c0 !important;
+  text-decoration: none !important;
+}
+
+/* --- Actions Footer --- */
+.sandbox-actions {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  flex-shrink: 0;
+}
+
+.sandbox-btn {
+  flex: 1;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  transition: all var(--transition-fast);
+  text-align: center;
+}
+
+.sandbox-btn-apply {
+  background: var(--color-primary);
+  color: white;
+}
+
+.sandbox-btn-apply:hover {
+  background: var(--color-primary-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.sandbox-btn-discard {
+  background: var(--color-surface-hover);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.sandbox-btn-discard:hover {
+  background: var(--color-surface-active);
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+.sandbox-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

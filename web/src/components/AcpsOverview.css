@@ -1,0 +1,359 @@
+/* ============================================================
+   AcpsOverview — ACPs Agent Discovery Display (Glassmorphism & Staggered Cards)
+   ============================================================ */
+
+/* Container */
+.acps-overview {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 28px 16px 36px;
+  animation: acpsFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes acpsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header */
+.acps-overview-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.acps-overview-icon {
+  font-size: 44px;
+  margin-bottom: 10px;
+  display: inline-block;
+  animation: acpsIconFloat 3s ease-in-out infinite;
+}
+
+@keyframes acpsIconFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(5deg);
+  }
+}
+
+.acps-overview-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #06b6d4, #3b82f6, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.acps-overview-subtitle {
+  font-size: 0.88rem;
+  color: var(--color-text-secondary, #5f6368);
+  font-weight: 400;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Section */
+.acps-section {
+  margin-bottom: 24px;
+}
+
+.acps-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border-light, rgba(0, 0, 0, 0.05));
+}
+
+.acps-section-icon {
+  font-size: 20px;
+}
+
+.acps-section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text, #1f1f1f);
+  flex: 1;
+}
+
+.acps-section-count {
+  font-size: 0.72rem;
+  color: #0284c7;
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+/* Grid Layout */
+.acps-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* Glassmorphism Cards */
+.acps-card {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+  border-radius: 16px;
+  padding: 18px 20px;
+  cursor: default;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  animation: acpsCardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.acps-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #06b6d4, #6366f1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.acps-card:hover {
+  border-color: rgba(6, 182, 212, 0.3);
+  box-shadow: 0 10px 24px rgba(6, 182, 212, 0.08), 0 2px 6px rgba(0, 0, 0, 0.02);
+  transform: translateY(-4px);
+}
+
+.acps-card:hover::before {
+  opacity: 1;
+}
+
+@keyframes acpsCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.acps-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.acps-agent-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text, #1f1f1f);
+  line-height: 1.3;
+}
+
+.acps-agent-status {
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background: rgba(16, 185, 129, 0.08);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.status-inactive {
+  background: rgba(107, 114, 128, 0.08);
+  color: #4b5563;
+  border: 1px solid rgba(107, 114, 128, 0.15);
+}
+
+.acps-card-desc {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary, #5f6368);
+  line-height: 1.5;
+  margin-bottom: 14px;
+  height: 60px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.acps-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.acps-skill-tag {
+  font-size: 0.68rem;
+  background: var(--color-surface-hover, #f1f3f5);
+  color: var(--color-text-secondary, #5f6368);
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  border: 1px solid var(--color-border-light, rgba(0, 0, 0, 0.03));
+}
+
+.acps-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--color-text-tertiary, #9aa0a6);
+  border-top: 1px solid var(--color-border-light, rgba(0, 0, 0, 0.03));
+  padding-top: 10px;
+}
+
+.acps-agent-provider {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.acps-agent-aic {
+  font-size: 0.65rem;
+  font-family: monospace;
+  opacity: 0.6;
+}
+
+/* View More Button with sleek icon */
+.acps-view-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 28px auto 0;
+  padding: 10px 28px;
+  border-radius: 24px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0284c7;
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 2px 6px rgba(14, 165, 233, 0.05);
+}
+
+.acps-view-more:hover {
+  background: rgba(14, 165, 233, 0.14);
+  border-color: #0284c7;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.15);
+}
+
+.acps-view-more:active {
+  transform: translateY(0);
+}
+
+/* Empty State */
+.acps-empty {
+  text-align: center;
+  padding: 48px 16px;
+  background: rgba(0, 0, 0, 0.01);
+  border-radius: 20px;
+  border: 1px dashed var(--color-border, rgba(0, 0, 0, 0.1));
+}
+
+.acps-empty p {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary, #5f6368);
+  margin-bottom: 6px;
+}
+
+.acps-empty-hint {
+  font-size: 0.8rem;
+  color: var(--color-text-tertiary, #9aa0a6);
+}
+
+/* Skeleton Loader */
+.acps-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.acps-skeleton-card {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border-light, rgba(0, 0, 0, 0.04));
+  border-radius: 16px;
+  padding: 20px;
+  animation: acpsSkeletonPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes acpsSkeletonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.acps-skeleton-line {
+  border-radius: 6px;
+  background: var(--color-surface-hover, #f1f3f5);
+  margin-bottom: 12px;
+}
+
+.acps-skeleton-line:last-child {
+  margin-bottom: 0;
+}
+
+.acps-skeleton-title {
+  height: 16px;
+  width: 70%;
+}
+
+.acps-skeleton-desc {
+  height: 10px;
+  width: 95%;
+  margin-bottom: 8px;
+}
+
+.acps-skeleton-desc-short {
+  height: 10px;
+  width: 60%;
+  margin-bottom: 16px;
+}
+
+.acps-skeleton-tags {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.acps-skeleton-tag {
+  height: 16px;
+  width: 50px;
+  border-radius: 8px;
+}
+
+.acps-skeleton-footer {
+  height: 12px;
+  width: 40%;
+}
