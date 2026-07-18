@@ -278,7 +278,7 @@ class YanyuMiddleware(AgentMiddleware[AgentState, ContextT, ResponseT]):
 
         return StructuredTool.from_function(
             name="publish_info",
-            description="在雁羽-鸿络（Yanyu-Flux）平台上发布或创建社交信息/活动公告（例如球赛/运动比赛、约会、交易、聚会），可选择添加附件。",
+            description="在信息聚合平台上发布信息。如果要发布二手商品，extra 中必须包含 info_type='second_hand'，以及 title（标题）、price（价格）、condition（成色：全新/95新/九成新/八成新/六成新）、category（分类：教材/数码/外设/生活/出行/考研/其他）、contact（联系方式）。其他信息类型可传对应 extra 字段。",
             func=lambda *a, **k: None,
             coroutine=async_publish_info,
             infer_schema=False,
@@ -377,7 +377,7 @@ class YanyuMiddleware(AgentMiddleware[AgentState, ContextT, ResponseT]):
 
         return StructuredTool.from_function(
             name="search_infos",
-            description="在平台目录中搜索与查询匹配的消息、赛事、活动和匹配信息。",
+            description="在信息聚合平台中搜索信息。可用于搜索二手商品（info_type='second_hand'）、活动、拼车等各种类型的信息。搜索结果包含 description 和 extra 字段，其中二手商品 extra 包含 price、condition、category、contact 等。",
             func=lambda *a, **k: None,
             coroutine=async_search_infos,
             infer_schema=False,
@@ -674,25 +674,13 @@ class YanyuMiddleware(AgentMiddleware[AgentState, ContextT, ResponseT]):
                 total = data.get("total", 0)
 
                 if not items:
-                    return f"二手市场中没有找到与「{query}」相关的商品。试试其他关键词？"
+                    return f"未找到与「{query}」相关的商品"
 
-                cache_dir = Path(self.workspace_root) / "yanyu"
-                cache_dir.mkdir(parents=True, exist_ok=True)
-                cache_path = cache_dir / "marketplace_search.json"
-                with open(cache_path, "w", encoding="utf-8") as f:
-                    json.dump(data, f, ensure_ascii=False, indent=2)
-
-                lines = [f"二手市场中共找到 {total} 件商品，以下是前 {len(items)} 件：\n"]
-                for i, it in enumerate(items, 1):
-                    price_str = f"¥{it['price']}" if it.get("price") else "价格面议"
-                    lines.append(
-                        f"{i}. **{it['title']}** {price_str} {it.get('condition','')} "
-                        f"[{it.get('category','')}] 卖家:{it.get('seller_username','')} "
-                        f"(ID:{it['id']})"
-                    )
-
-                lines.append(f"\n详细数据已缓存至 {cache_path}")
-                return "\n".join(lines)
+                item_strs = []
+                for it in items:
+                    p = it.get('price')
+                    item_strs.append(f"{it['title']}|{p}元|{it['condition']}|卖家{it['seller_username']}")
+                return f"找到{total}件: " + "; ".join(item_strs)
 
             except Exception as e:
                 return f"搜索二手市场时出错：{e}"
